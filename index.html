@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyLauncher — The command bar for school</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue: #f97316;
+      --blue-dark: #ea6c0a;
+      --bg: #0a0a0a;
+      --surface: #111;
+      --border: #1e1e1e;
+      --text: #e8e8e8;
+      --muted: #555;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ── Nav ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 40px;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: rgba(10,10,10,0.9);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+    .logo { font-size: 16px; font-weight: 700; color: #fff; letter-spacing: -0.02em; }
+    .logo span { color: var(--blue); }
+    .nav-download {
+      background: var(--blue); color: #fff; text-decoration: none;
+      border-radius: 8px; font-size: 13px; font-weight: 600;
+      padding: 8px 16px;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .nav-download:hover  { background: var(--blue-dark); }
+    .nav-download:active { transform: scale(0.97); }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      padding: 100px 20px 80px;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--blue); background: rgba(249,115,22,0.1);
+      border: 1px solid rgba(249,115,22,0.2);
+      border-radius: 100px; padding: 4px 12px; margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 800; line-height: 1.1;
+      letter-spacing: -0.03em; color: #fff;
+      margin-bottom: 20px;
+    }
+    .hero h1 span { color: var(--blue); }
+    .hero p {
+      font-size: 18px; color: var(--muted); line-height: 1.6;
+      margin-bottom: 40px;
+    }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-hero {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--blue); color: #fff; text-decoration: none;
+      border-radius: 10px; font-size: 15px; font-weight: 600;
+      padding: 13px 24px;
+      transition: background 0.15s, transform 0.1s;
+      border: none; cursor: pointer;
+    }
+    .btn-hero:hover  { background: var(--blue-dark); }
+    .btn-hero:active { transform: scale(0.97); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--surface); color: #aaa; text-decoration: none;
+      border: 1px solid var(--border); border-radius: 10px;
+      font-size: 15px; font-weight: 500; padding: 13px 24px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .btn-ghost:hover { color: #fff; border-color: #333; }
+
+    /* ── Hotkey demo ── */
+    .hotkey-demo {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 16px; margin-top: 48px;
+      font-size: 13px; color: var(--muted);
+    }
+    .key {
+      background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 5px;
+      padding: 3px 9px; font-size: 12px; font-weight: 600; color: #888;
+    }
+
+    /* ── Features ── */
+    .features {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px; max-width: 960px; margin: 0 auto 100px;
+      padding: 0 24px;
+    }
+    .feature-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 24px;
+      transition: border-color 0.15s;
+    }
+    .feature-card:hover { border-color: #2a2a2a; }
+    .feature-icon {
+      font-size: 22px; margin-bottom: 14px;
+      width: 44px; height: 44px; background: #161616;
+      border: 1px solid var(--border); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .feature-card h3 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+    .feature-card p  { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* ── Install steps ── */
+    .install-section {
+      max-width: 600px; margin: 0 auto 100px; padding: 0 24px;
+      text-align: center;
+    }
+    .section-eyebrow {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--blue); margin-bottom: 12px;
+    }
+    .install-section h2 {
+      font-size: 32px; font-weight: 700; letter-spacing: -0.02em;
+      color: #fff; margin-bottom: 48px;
+    }
+    .steps { text-align: left; display: flex; flex-direction: column; gap: 8px; }
+    .step {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px;
+    }
+    .step-num {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.2);
+      color: var(--blue); font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .step h4 { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 3px; }
+    .step p  { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    .download-cta {
+      margin-top: 36px;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+    }
+    .download-note { font-size: 12px; color: #333; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-logo { font-size: 14px; font-weight: 700; color: #333; letter-spacing: -0.02em; }
+    .footer-logo span { color: #2a2a5a; }
+    footer p { font-size: 12px; color: #2a2a2a; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">Study<span>Launcher</span></div>
+    <a class="nav-download" href="studylauncher.zip" download>Download Extension</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">Free Chrome Extension</div>
+    <h1>The command bar<br>for <span>school</span></h1>
+    <p>One shortcut opens every tab you need for any assignment —<br>your notes, the PDF, the rubric, all at once.</p>
+    <div class="hero-actions">
+      <a class="btn-hero" href="studylauncher.zip" download>⬇ Download Free</a>
+      <a class="btn-ghost" href="#install">How to install</a>
+    </div>
+    <div class="hotkey-demo">
+      Press <span class="key">Ctrl</span>+<span class="key">Shift</span>+<span class="key">Space</span> anywhere → your workspace opens instantly
+    </div>
+  </section>
+
+  <!-- Features -->
+  <div class="features">
+    <div class="feature-card">
+      <div class="feature-icon">⌕</div>
+      <h3>Command bar</h3>
+      <p>Press one shortcut from any tab. Search your workspaces and jump to any assignment instantly.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⊞</div>
+      <h3>Workspaces per course</h3>
+      <p>Save your notes doc, textbook, and rubric once per class. Every assignment in that course opens them automatically.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📅</div>
+      <h3>Upcoming assignments</h3>
+      <p>See what's due soon right in the popup. Connect Canvas and your assignments show up automatically.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📝</div>
+      <h3>Assignment notes</h3>
+      <p>Jot a quick reminder per assignment — "check rubric", "cite sources" — visible in the popup and dashboard.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>Add any tab instantly</h3>
+      <p>One click to save whatever you're looking at into a workspace. No copy-pasting URLs.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎛</div>
+      <h3>Full dashboard</h3>
+      <p>Open a full-screen view of all upcoming assignments and your saved workspaces side by side.</p>
+    </div>
+  </div>
+
+  <!-- Install -->
+  <section class="install-section" id="install">
+    <div class="section-eyebrow">Get started</div>
+    <h2>Install in 60 seconds</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h4>Download the extension</h4>
+          <p>Click the download button and save the ZIP file anywhere on your computer.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h4>Unzip the file</h4>
+          <p>Right-click the ZIP → Extract All. You'll get a folder called <strong>canvas-drive-extension</strong>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h4>Open Chrome Extensions</h4>
+          <p>Go to <strong>chrome://extensions</strong> in your browser and turn on <strong>Developer mode</strong> (top right toggle).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <h4>Load the extension</h4>
+          <p>Click <strong>Load unpacked</strong> and select the unzipped folder. StudyLauncher will appear in your extensions.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div>
+          <h4>Press Ctrl+Shift+Space</h4>
+          <p>On any tab, press the shortcut to open the command bar and start building your workspaces.</p>
+        </div>
+      </div>
+    </div>
+    <div class="download-cta">
+      <a class="btn-hero" href="studylauncher.zip" download>⬇ Download StudyLauncher</a>
+      <span class="download-note">Free · No account required · Works on Chrome</span>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Study<span>Launcher</span></div>
+    <p>Built for students, by students.</p>
+  </footer>
+
+</body>
+</html>
